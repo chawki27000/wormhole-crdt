@@ -1,6 +1,6 @@
 package architecture;
 
-import java.util.ArrayList;
+import java.util.Hashtable;
 
 public class NoC {
 
@@ -12,12 +12,12 @@ public class NoC {
     // attribut
     private int n;
     private int m;
-    private ArrayList<Tile> tiles;
+    private Hashtable<Integer, Tile> tiles;
 
     public NoC(int n, int m) {
         this.n = n;
         this.m = m;
-        tiles = new ArrayList<>();
+        tiles = new Hashtable<>();
 
         this.tileInitialization(n, m);
     }
@@ -26,14 +26,14 @@ public class NoC {
     private void tileInitialization(int n, int m) {
 
         Tile tile;
-        int counter = 1;
+        int idx = 0;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
 
                 // tile initialization
-                tile = new Tile(counter);
-                tiles.add(tile);
-                counter++;
+                tile = new Tile(idx);
+                tiles.put(idx,tile);
+                idx++;
 
             }
         }
@@ -103,10 +103,17 @@ public class NoC {
     }
 
     public void printTiles() {
-        for (Tile tile : tiles) {
-            System.out.println("Tile (" + tile.getId() + ")");
+        int idx = 1;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                System.out.print(idx+" -- ");
+                idx++;
+            }
+            System.out.println();
         }
+
     }
+
 
 
     public void sendMessage(Tile receiver) {

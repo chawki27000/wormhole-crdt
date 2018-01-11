@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
 
         // NoC instanciation
-        NoC noC = new NoC(6, 4);
+        NoC noC = new NoC(4, 6);
         noC.linkingTiles();
 
         noC.printTiles();
