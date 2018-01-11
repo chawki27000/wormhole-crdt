@@ -6,9 +6,11 @@ public class Message {
 
     // attribute
     private ArrayList<Packet> packets;
+    private int size;
 
     // constructor
-    public Message() {
+    public Message(int size) {
+        this.size = size;
     }
 
 

@@ -3,7 +3,7 @@ package architecture;
 public class Tile {
 
     // attribute
-    private String id;
+    private int id;
     private PE pe;
     private Router r;
 
@@ -13,15 +13,36 @@ public class Tile {
     private Tile east;
 
     // constructor
-    public Tile(String id, Tile north, Tile south, Tile west, Tile east) {
+    public Tile(int id) {
         this.id = id;
-        this.north = north;
-        this.south = south;
-        this.west = west;
-        this.east = east;
+
+        r = new Router();
+        pe = new PE();
     }
 
     // - - - functions member - - -
 
+    public Router getRouter() {
+        return r;
+    }
 
+    public void setNorth(Tile north) {
+        this.north = north;
+    }
+
+    public void setSouth(Tile south) {
+        this.south = south;
+    }
+
+    public void setWest(Tile west) {
+        this.west = west;
+    }
+
+    public void setEast(Tile east) {
+        this.east = east;
+    }
+
+    public int getId() {
+        return id;
+    }
 }

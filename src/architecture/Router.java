@@ -14,7 +14,6 @@ public class Router {
     private int credit;
     private ArrayList<Flit> buffer;
 
-
     // constructor
     public Router() {
         credit = NoC.CREDIT_NUMBER;
@@ -23,7 +22,13 @@ public class Router {
 
     // - - - functions member - - -
 
-    public void sendPacket(Router receiver, Packet packet) {
+    public void sendPacket(Router receiver, Flit flit) {
+
+
+    }
+
+    public void ReceivePacket(Flit flit) {
+        buffer.add(flit);
 
     }
 

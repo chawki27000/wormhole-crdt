@@ -1,7 +1,14 @@
 package main;
 
+import architecture.NoC;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("initial commit");
+
+        // NoC instanciation
+        NoC noC = new NoC(6, 4);
+        noC.linkingTiles();
+
+        noC.printTiles();
     }
 }
