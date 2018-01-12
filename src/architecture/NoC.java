@@ -28,6 +28,14 @@ public class NoC {
     }
 
     // - - - functions member - - -
+
+    /**
+     *
+     * @param n number of row
+     * @param m number of column
+     *          This function aims to create many tiles and refers
+     *          at the n, m numbers
+     */
     private void tileInitialization(int n, int m) {
 
         Tile tile;
@@ -45,6 +53,10 @@ public class NoC {
 
     }
 
+    /**
+     * This function build a NoC topology by linking the tiles
+     * between them like a 2D Mesh
+     */
     public void linkingTiles() {
         int idx = 0;
         for (int i = 0; i < n; i++) {
@@ -110,6 +122,9 @@ public class NoC {
         }
     }
 
+    /**
+     * Printing
+     */
     public void printTiles() {
         int idx = 1;
         for (int i = 0; i < n; i++) {
@@ -123,6 +138,12 @@ public class NoC {
     }
 
 
+    /**
+     *
+     * @param sender The tile which wants to send a message
+     * @param receiver The tile which receiving a message
+     * @param message
+     */
     public void sendMessage(Tile sender, Tile receiver,
                             Message message) {
 
@@ -132,7 +153,7 @@ public class NoC {
         // Spliting a message to a multiple packets
         Packet[] packets = message.slising();
 
-        // the 2 routers
+        // the 2 routers belonging to tiles
         Router routerSender = sender.getRouter();
         Router routerReceiver = receiver.getRouter();
 

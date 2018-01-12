@@ -21,9 +21,16 @@ public class Router {
 
     // Sender functions
 
+    /**
+     *
+     * @param receiver The tile receiver's router
+     * @param packet
+     */
     public void sendPacket(Router receiver, Packet packet) {
 
         System.out.println("Sending packet : "+packet.getNum());
+
+        // Slising a packet to flits
         Flit[] flits = packet.slising();
 
         // Sending all flits from the same packet
@@ -40,6 +47,12 @@ public class Router {
 
     }
 
+    /**
+     * This function decrements the credit of the sender router if
+     * it's greater than 0
+     * @return True if it has a credit
+     *         False on the other hand
+     */
     private boolean decreditized() {
         if (credit <= 0){
             System.out.println("Impossible to send. buffer's full");
