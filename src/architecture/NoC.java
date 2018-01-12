@@ -8,7 +8,7 @@ import java.util.Hashtable;
 public class NoC {
 
     // constant
-    public final static int CREDIT_NUMBER = 5;
+    public final static int CREDIT_NUMBER = 1;
     public final static int PACKET_SIZE = 32;
     public final static int FLIT_SIZE = 4;
 
@@ -126,6 +126,9 @@ public class NoC {
     public void sendMessage(Tile sender, Tile receiver,
                             Message message) {
 
+        System.out.println("Sending message form Tile ("+sender.getId()+")" +
+                " to Tile ("+receiver.getId()+")");
+
         // Spliting a message to a multiple packets
         Packet[] packets = message.slising();
 
@@ -133,7 +136,11 @@ public class NoC {
         Router routerSender = sender.getRouter();
         Router routerReceiver = receiver.getRouter();
 
-        routerSender.sendPacket(routerReceiver, packets[0]);
+        // send all packets to the next router
+        for (int i = 0; i < packets.length; i++) {
+            routerSender.sendPacket(routerReceiver, packets[i]);
+        }
+
 
     }
 

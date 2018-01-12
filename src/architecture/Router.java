@@ -7,9 +7,6 @@ import java.util.ArrayList;
 
 public class Router {
 
-    // constant
-
-
     // attribute
     private int credit;
     private ArrayList<Flit> buffer;
@@ -22,39 +19,60 @@ public class Router {
 
     // - - - functions member - - -
 
+    // Sender functions
+
     public void sendPacket(Router receiver, Packet packet) {
 
+        System.out.println("Sending packet : "+packet.getNum());
         Flit[] flits = packet.slising();
 
-        receiver.receiveFlit(flits[0]);
+        // Sending all flits from the same packet
+        for (int i = 0; i < flits.length; i++) {
+            // prepare to sending
+            if (this.decreditized()){
+                if (receiver.receiveFlit(flits[i])){
+                    this.creditized();
+                }
+            }
+        }
+
+
 
     }
 
-    public void receiveFlit(Flit flit) {
+    private boolean decreditized() {
+        if (credit <= 0){
+            System.out.println("Impossible to send. buffer's full");
+            return false;
+        }
+        else {
+            credit--;
+            return true;
+        }
+
+    }
+
+    // Receiver functions
+
+    private boolean receiveFlit(Flit flit) {
         buffer.add(flit);
+        System.out.println("Receiving flit ("+flit.getType()+")");
+
+        // ** Leaving the router **
+        return true;
 
     }
 
     // credit function member
-    public void creditized() {
+    private void creditized() {
         credit++;
     }
 
-    public void decreditized() {
-        credit--;
-    }
+    // Other functions
 
     public int getCredit() {
         return credit;
     }
 
-    // buffer function member
-    public void bufferized(Flit flit) {
-        buffer.add(flit);
-    }
-
-    public void debufferized() {
-
-    }
 
 }

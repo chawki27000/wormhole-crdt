@@ -12,6 +12,7 @@ public class Packet {
     }
 
     // - - - functions member - - -
+
     public Flit[] slising() {
         int flit_number = NoC.PACKET_SIZE / NoC.FLIT_SIZE;
         Flit[] flits = new Flit[flit_number];
@@ -23,5 +24,9 @@ public class Packet {
         flits[flit_number-1] = new Flit("Tail");
 
         return flits;
+    }
+
+    public int getNum() {
+        return num;
     }
 }

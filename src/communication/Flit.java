@@ -10,4 +10,9 @@ public class Flit {
     }
 
     // - - - functions member - - -
+
+
+    public String getType() {
+        return type;
+    }
 }
