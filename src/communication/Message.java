@@ -1,5 +1,7 @@
 package communication;
 
+import architecture.NoC;
+
 import java.util.ArrayList;
 
 public class Message {
@@ -15,6 +17,18 @@ public class Message {
 
 
     // - - - functions member - - -
+
+    public Packet[] slising() {
+
+        int packet_number = size/ NoC.PACKET_SIZE;
+        Packet[] packets = new Packet[packet_number];
+
+        for (int i = 0; i < packet_number; i++) {
+            packets[i] = new Packet(i);
+        }
+
+        return packets;
+    }
 
 
 }

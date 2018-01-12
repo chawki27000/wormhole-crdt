@@ -22,6 +22,8 @@ public class Tile {
 
     // - - - functions member - - -
 
+
+
     public Router getRouter() {
         return r;
     }
@@ -40,6 +42,22 @@ public class Tile {
 
     public void setEast(Tile east) {
         this.east = east;
+    }
+
+    public Tile getNorth() {
+        return north;
+    }
+
+    public Tile getSouth() {
+        return south;
+    }
+
+    public Tile getWest() {
+        return west;
+    }
+
+    public Tile getEast() {
+        return east;
     }
 
     public int getId() {

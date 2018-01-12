@@ -1,13 +1,18 @@
 package architecture;
 
+import communication.Message;
+import communication.Packet;
+
 import java.util.Hashtable;
 
 public class NoC {
 
     // constant
     public final static int CREDIT_NUMBER = 5;
-    public final static int PACKET_SIZE = 5;
-    public final static int FLIT_SIZE = 5;
+    public final static int PACKET_SIZE = 32;
+    public final static int FLIT_SIZE = 4;
+
+    public final static int VC_NUMBER = 4;
 
     // attribut
     private int n;
@@ -32,7 +37,7 @@ public class NoC {
 
                 // tile initialization
                 tile = new Tile(idx);
-                tiles.put(idx,tile);
+                tiles.put(idx, tile);
                 idx++;
 
             }
@@ -55,6 +60,7 @@ public class NoC {
                         tiles.get(idx).setWest(tiles.get(idx - 1));
 
                         tiles.get(idx).setSouth(tiles.get(idx + m));
+                        
                     } else { // the tiles in the middle columns
                         tiles.get(idx).setEast(tiles.get(idx + 1));
                         tiles.get(idx).setWest(tiles.get(idx - 1));
@@ -71,6 +77,7 @@ public class NoC {
                         tiles.get(idx).setWest(tiles.get(idx - 1));
 
                         tiles.get(idx).setNorth(tiles.get(idx - m));
+
                     } else { // the tiles in the middle columns
                         tiles.get(idx).setEast(tiles.get(idx + 1));
                         tiles.get(idx).setWest(tiles.get(idx - 1));
@@ -89,6 +96,7 @@ public class NoC {
 
                         tiles.get(idx).setNorth(tiles.get(idx - m));
                         tiles.get(idx).setSouth(tiles.get(idx + m));
+
                     } else { // the tiles in the middle columns
                         tiles.get(idx).setEast(tiles.get(idx + 1));
                         tiles.get(idx).setWest(tiles.get(idx - 1));
@@ -106,7 +114,7 @@ public class NoC {
         int idx = 1;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                System.out.print(idx+" -- ");
+                System.out.print(idx + " -- ");
                 idx++;
             }
             System.out.println();
@@ -115,10 +123,22 @@ public class NoC {
     }
 
 
+    public void sendMessage(Tile sender, Tile receiver,
+                            Message message) {
 
-    public void sendMessage(Tile receiver) {
+        // Spliting a message to a multiple packets
+        Packet[] packets = message.slising();
+
+        // the 2 routers
+        Router routerSender = sender.getRouter();
+        Router routerReceiver = receiver.getRouter();
+
+        routerSender.sendPacket(routerReceiver, packets[0]);
 
     }
 
+    public Tile getTile(int id) {
+        return tiles.get(id);
+    }
 
 }

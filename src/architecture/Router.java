@@ -1,6 +1,7 @@
 package architecture;
 
 import communication.Flit;
+import communication.Packet;
 
 import java.util.ArrayList;
 
@@ -21,12 +22,15 @@ public class Router {
 
     // - - - functions member - - -
 
-    public void sendPacket(Router receiver, Flit flit) {
+    public void sendPacket(Router receiver, Packet packet) {
 
+        Flit[] flits = packet.slising();
+
+        receiver.receiveFlit(flits[0]);
 
     }
 
-    public void ReceivePacket(Flit flit) {
+    public void receiveFlit(Flit flit) {
         buffer.add(flit);
 
     }
