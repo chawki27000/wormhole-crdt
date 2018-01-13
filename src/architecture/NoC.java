@@ -30,16 +30,15 @@ public class NoC {
     // - - - functions member - - -
 
     /**
-     *
+     * This function aims to create many tiles and refers
+     * at the n, m numbers
      * @param n number of row
      * @param m number of column
-     *          This function aims to create many tiles and refers
-     *          at the n, m numbers
      */
     private void tileInitialization(int n, int m) {
 
         Tile tile;
-        int idx = 0;
+        int idx = 1;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
 
@@ -58,7 +57,7 @@ public class NoC {
      * between them like a 2D Mesh
      */
     public void linkingTiles() {
-        int idx = 0;
+        int idx = 1;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
 
@@ -72,7 +71,7 @@ public class NoC {
                         tiles.get(idx).setWest(tiles.get(idx - 1));
 
                         tiles.get(idx).setSouth(tiles.get(idx + m));
-                        
+
                     } else { // the tiles in the middle columns
                         tiles.get(idx).setEast(tiles.get(idx + 1));
                         tiles.get(idx).setWest(tiles.get(idx - 1));
@@ -139,19 +138,18 @@ public class NoC {
 
 
     /**
-     *
-     * @param sender The tile which wants to send a message
+     * @param sender   The tile which wants to send a message
      * @param receiver The tile which receiving a message
-     * @param message
+     * @param m
      */
-    public void sendMessage(Tile sender, Tile receiver,
-                            Message message) {
+    private void sendMessage(Tile sender, Tile receiver,
+                            Message m) {
 
-        System.out.println("Sending message form Tile ("+sender.getId()+")" +
-                " to Tile ("+receiver.getId()+")");
+        System.out.println("Sending message form Tile (" + sender.getId() + ")" +
+                " to Tile (" + receiver.getId() + ")");
 
         // Spliting a message to a multiple packets
-        Packet[] packets = message.slising();
+        Packet[] packets = m.slising();
 
         // the 2 routers belonging to tiles
         Router routerSender = sender.getRouter();
@@ -162,6 +160,68 @@ public class NoC {
             routerSender.sendPacket(routerReceiver, packets[i]);
         }
 
+
+    }
+
+    /**
+     * @param fsender
+     * @param freceiver
+     *
+     */
+    public void dimensionOrderedRouting(Tile fsender, Tile freceiver, Message m) {
+
+        // compute the coordinates of tiles
+        int[] senderCoord = getMeshCoordinate(fsender);
+        int[] receiverCoord = getMeshCoordinate(freceiver);
+        int diff;
+
+        Tile last = fsender;
+
+        // Transmit to the left tile
+        if (senderCoord[0] > receiverCoord[0]) {
+            diff = senderCoord[0] - receiverCoord[0];
+            for (int i = 0; i < diff; i++) {
+                sendMessage(last, last.getWest(), m);
+                last = last.getWest();
+            }
+        }
+
+        // Transmit to the right tile
+        else if (senderCoord[0] < receiverCoord[0]) {
+            diff = receiverCoord[0] - senderCoord[0];
+            for (int i = 0; i < diff; i++) {
+                sendMessage(last, last.getEast(), m);
+                last = last.getEast();
+            }
+        }
+
+        // Transmit to the upper tile
+        if (senderCoord[1] > receiverCoord[1]) {
+            diff = senderCoord[1] - receiverCoord[1];
+            for (int i = 0; i < diff; i++) {
+                sendMessage(last, last.getNorth(), m);
+                last = last.getNorth();
+            }
+        }
+
+        // Transmit to the lowest tile
+        else if (senderCoord[1] < receiverCoord[1]) {
+            diff = receiverCoord[1] - senderCoord[1];
+            for (int i = 0; i < diff; i++) {
+                sendMessage(last, last.getSouth(), m);
+                last = last.getSouth();
+            }
+        }
+    }
+
+    private int[] getMeshCoordinate(Tile tile) {
+        int idx = tile.getId();
+        System.out.println("TILE : "+idx);
+        int[] coordinate = new int[2];
+
+        coordinate[0] = (idx % m == 0) ? m : idx % m;
+        coordinate[1] = (int) Math.ceil((float)idx/m);
+        return coordinate;
 
     }
 
