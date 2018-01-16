@@ -1,32 +1,43 @@
 package communication;
 
+import communication.Flit.FlitType;
+
 import architecture.NoC;
 
 public class Packet {
 
-    // attribute
-    private int num;
+	// attribute
+	private int num;
 
-    public Packet(int num) {
-        this.num = num;
-    }
+	public Packet(int num) {
+		this.num = num;
+		
+		int packet_size = NoC.PACKET_SIZE / NoC.FLIT_SIZE;
+		flit_Array = new Flit[packet_size + 2];
 
-    // - - - functions member - - -
+		flit_Array[0] = new Flit(FlitType.HEAD);
+		for (int i = 0; i < packet_size; i++) {
+			flit_Array[i + 1] = new Flit(FlitType.DATA);
+		}
+		flit_Array[packet_size] = new Flit(FlitType.TAIL);
 
-    public Flit[] slising() {
-        int flit_number = NoC.PACKET_SIZE / NoC.FLIT_SIZE;
-        Flit[] flits = new Flit[flit_number];
+	}
 
-        flits[0] = new Flit("Header");
-        for (int i = 1; i < flit_number - 1; i++) {
-            flits[i] = new Flit("Payload");
-        }
-        flits[flit_number-1] = new Flit("Tail");
+	Flit[] flit_Array;
 
-        return flits;
-    }
+	public int getNum() {
+		return num;
+	}
 
-    public int getNum() {
-        return num;
-    }
+	public Flit[] getFlit_Array() {
+		return flit_Array;
+	}
+
+	public void setFlit_Array(Flit[] flit_Array) {
+		this.flit_Array = flit_Array;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
+	}
 }

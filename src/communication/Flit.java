@@ -2,17 +2,23 @@ package communication;
 
 public class Flit {
 
-    // attribute
-    private String type;
+	public enum FlitType {
+		HEAD, TAIL, DATA
+	}
 
-    public Flit(String type) {
-        this.type = type;
-    }
+	// attribute
+	private FlitType type;
 
-    // - - - functions member - - -
+	public Flit(FlitType type) {
+		this.type = type;
+	}
 
+	@Override
+	public String toString() {
+		return "" + type;
+	}
 
-    public String getType() {
-        return type;
-    }
+	public FlitType getType() {
+		return type;
+	}
 }

@@ -1,66 +1,205 @@
 package architecture;
 
+
+
 public class Tile {
 
-    // attribute
-    private int id;
-    private PE pe;
-    private Router r;
+	// attribute
+	private int id;
+	private PE pe;
 
-    private Tile north;
-    private Tile south;
-    private Tile west;
-    private Tile east;
+	public PE getPE() {
+		return pe;
+	}
 
-    // constructor
-    public Tile(int id) {
-        this.id = id;
+	public void setPE(PE pe) {
+		this.pe = pe;
+	}
 
-        r = new Router();
-        pe = new PE();
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    // - - - functions member - - -
+	private Router r;
+
+	private Tile north;
+	private Tile south;
+	private Tile west;
+	private Tile east;
+
+	// constructor
+	public Tile(int id) {
+		this.id = id;
+		r = new Router();
+		pe = new PE();
+	}
+
+	// - - - functions member - - -
+
+	@Override
+	public String toString() {
+		String neighbors = "";
+		if (east != null)
+			neighbors += east.getId() + ",";
+		else
+			neighbors += "null,";
+
+		if (west != null)
+			neighbors += west.getId() + ",";
+		else
+			neighbors += "null,";
+
+		if (north != null)
+			neighbors += north.getId() + ",";
+		else
+			neighbors += "null,";
+
+		if (south != null)
+			neighbors += south.getId() + "";
+		else
+			neighbors += "null";
+
+		return id + "-> (" + neighbors + ")";
+	}
+
+	public Router getRouter() {
+		return r;
+	}
+
+	public void setNorth(Tile north) {
+		this.north = north;
+	}
+
+	public void setSouth(Tile south) {
+		this.south = south;
+	}
+
+	public void setWest(Tile west) {
+		this.west = west;
+	}
+
+	public void setEast(Tile east) {
+		this.east = east;
+	}
+
+	public Tile getNorth() {
+		return north;
+	}
+
+	public Tile getSouth() {
+		return south;
+	}
+
+	public Tile getWest() {
+		return west;
+	}
+
+	public Tile getEast() {
+		return east;
+	}
+
+	public int getId() {
+		return id;
+	}
 
 
+	
+	
+	
+	
+	
+	
+	/*public void sendMessage(Tile receiver, Message m) {
 
-    public Router getRouter() {
-        return r;
-    }
+		Router routerReceiver = receiver.getRouter();
 
-    public void setNorth(Tile north) {
-        this.north = north;
-    }
+		// send all packets to the next router
+		for (int i = 0; i < m.getPackets_array().length; i++) {
+			this.r.sendPacket(routerReceiver, m.getPackets_array()[i]);
+		}
+	}*/
+	
+	
+	
+	
+	
+	
+	
+	/*
+	
+	
+	public void dimensionOrderedRouting(Tile fsender, Tile freceiver, Message m) {
 
-    public void setSouth(Tile south) {
-        this.south = south;
-    }
+		// compute the coordinates of tiles
+		int[] senderCoord = getMeshCoordinate(fsender);
+		int[] receiverCoord = getMeshCoordinate(freceiver);
+		int diff;
 
-    public void setWest(Tile west) {
-        this.west = west;
-    }
+		Tile last = fsender;
 
-    public void setEast(Tile east) {
-        this.east = east;
-    }
+		// Transmit to the left tile
+		if (senderCoord[0] > receiverCoord[0]) {
+			diff = senderCoord[0] - receiverCoord[0];
+			for (int i = 0; i < diff; i++) {
+				sendMessage(last, last.getWest(), m);
+				last = last.getWest();
+			}
+		}
 
-    public Tile getNorth() {
-        return north;
-    }
+		// Transmit to the right tile
+		else if (senderCoord[0] < receiverCoord[0]) {
+			diff = receiverCoord[0] - senderCoord[0];
+			for (int i = 0; i < diff; i++) {
+				sendMessage(last, last.getEast(), m);
+				last = last.getEast();
+			}
+		}
 
-    public Tile getSouth() {
-        return south;
-    }
+		// Transmit to the upper tile
+		if (senderCoord[1] > receiverCoord[1]) {
+			diff = senderCoord[1] - receiverCoord[1];
+			for (int i = 0; i < diff; i++) {
+				sendMessage(last, last.getNorth(), m);
+				last = last.getNorth();
+			}
+		}
 
-    public Tile getWest() {
-        return west;
-    }
+		// Transmit to the lowest tile
+		else if (senderCoord[1] < receiverCoord[1]) {
+			diff = receiverCoord[1] - senderCoord[1];
+			for (int i = 0; i < diff; i++) {
+				sendMessage(last, last.getSouth(), m);
+				last = last.getSouth();
+			}
+		}
+	}
 
-    public Tile getEast() {
-        return east;
-    }
+	
+	*/
+	/*private int[] getMeshCoordinate(Tile tile) {
+		int idx = tile.getId();
+		System.out.println("TILE : " + idx);
+		int[] coordinate = new int[2];
 
-    public int getId() {
-        return id;
-    }
+		coordinate[0] = (idx % m == 0) ? m : idx % m;
+		coordinate[1] = (int) Math.ceil((float) idx / m);
+		return coordinate;
+
+	}
+	*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
