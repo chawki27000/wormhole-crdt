@@ -38,4 +38,12 @@ public class Message {
 
 	}
 
+	public int getNumberFlit() {
+		return size/NoC.FLIT_SIZE;
+	}
+
+	public int getNumberMessage(int numberFlit) {
+		return numberFlit/NoC.NUMBER_FLIT_PER_PACKET;
+	}
+
 }
