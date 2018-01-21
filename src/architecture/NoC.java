@@ -177,4 +177,6 @@ public class NoC {
 
         return Latency.networkLatencyOne(nP, nR, NoC.LATENCY_PER_PACKET);
     }
+
+
 }
