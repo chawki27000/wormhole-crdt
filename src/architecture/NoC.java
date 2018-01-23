@@ -174,8 +174,10 @@ public class NoC {
         int nR = routingDistance(sender, receiver);
         int nF = (int) Math.ceil((float) m.getSize()/NoC.FLIT_SIZE);
         int nP = (int) ((float) nF/NoC.NUMBER_FLIT_PER_PACKET);
+        int nI = (int) ((float) nP/ NoC.VC_NUMBER);
+        int oV = tiles.get(sender).getRouter().getTotalVC(true, tiles.size());
 
-        return Latency.networkLatencyOne(nP, nR, NoC.LATENCY_PER_PACKET);
+        return Latency.networkLatency(nI, oV, nR, NoC.LATENCY_PER_PACKET);
     }
 
 
