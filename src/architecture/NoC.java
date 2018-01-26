@@ -8,12 +8,12 @@ import java.util.Hashtable;
 public class NoC {
 
     // constant
-    public final static int CREDIT_NUMBER = 1;
-    public final static int PACKET_SIZE = 48; // 1 Head + 2 Data
-    public final static int FLIT_SIZE = 16;
-    public final static int NUMBER_FLIT_PER_PACKET = 32;
-    public final static int VC_NUMBER = 8;
-    public final static double LATENCY_PER_PACKET = 0.0075e-6;
+    public final static int CREDIT_NUMBER = 8; // Number of credit allocated to a router
+    public final static int PACKET_SIZE = 24; // 1 Head + 2 Data
+    public final static int FLIT_SIZE = 8; // size of a flit
+    public final static int NUMBER_FLIT_PER_PACKET = 3; // Number
+    public final static int VC_NUMBER = 8; // Number of VC in each input router port
+    public final static double LATENCY_PER_PACKET = 0.0075e-6; // Latency par paquet (second)
 
     // attribut
     private int n;
@@ -24,33 +24,20 @@ public class NoC {
         this.n = n;
         this.m = m;
         tiles = new Hashtable<>();
-        this.TileInitialization(n * m);
+        this.tileInitialization(n * m);
     }
 
     // - - - functions member - - -
 
-    // refaite par Houssam
-    private void TileInitialization(int tileNumber) {
-
+    /**
+     * Function to initialize a tiles in the NoC
+     * with a specific ID for each tile
+     *
+     * @param tileNumber the number of tiles
+     */
+    private void tileInitialization(int tileNumber) {
         for (int i = 1; i < tileNumber + 1; i++)
             tiles.put(i, new Tile(i));
-
-    }
-
-    private void tileInitialization(int n, int m) {
-
-        Tile tile;
-        int idx = 1;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-
-                // tile initialization
-                tile = new Tile(idx);
-                tiles.put(idx, tile);
-                idx++;
-
-            }
-        }
 
     }
 
@@ -89,6 +76,10 @@ public class NoC {
         }
     }
 
+    /**
+     * Linking tile between them like they are connected
+     * in a Mesh 2D
+     */
     public void linkingTiles() {
         int idx = 1;
         for (int i = 0; i < n; i++) {
@@ -170,7 +161,15 @@ public class NoC {
                         Math.floor((float) receiver / m)) + 1);
     }
 
+
     public double sendMessage(int sender, int receiver, Message m) {
+        /*
+            nR : number of hop between to tiles
+            nF : total number of flit contained by a message
+            nP : number of packet
+            nI : number of iteration done by all packets
+            oV : total number of VC alloted to a Router
+         */
         int nR = routingDistance(sender, receiver);
         int nF = (int) Math.ceil((float) m.getSize()/NoC.FLIT_SIZE);
         int nP = (int) ((float) nF/NoC.NUMBER_FLIT_PER_PACKET);
