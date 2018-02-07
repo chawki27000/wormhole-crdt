@@ -16,7 +16,8 @@ public class TrafficFlow {
     private ArrayList<Edge> edges;
 
 
-    public TrafficFlow(int p, int t, int d, int jr) {
+    public TrafficFlow(int c, int p, int t, int d, int jr) {
+        this.c = c; // MBNL
         this.p = p; // priority
         this.t = t; // period
         this.d = d; // deadline
@@ -43,6 +44,10 @@ public class TrafficFlow {
 
     public ArrayList<Edge> getEdges() {
         return edges;
+    }
+
+    public void setEdges(Edge edge) {
+        edges.add(edge);
     }
 
     public double getC() {

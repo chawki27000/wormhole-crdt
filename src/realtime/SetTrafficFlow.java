@@ -68,14 +68,14 @@ public class SetTrafficFlow {
         // Ri will have Ci in the first iteration
         double Ri = Ci;
         double tmp;
-        
+
         // iteration
         while (true){
             tmp = Ri;
             Ri += Ci;
             for (int i :intersectionSet) {
                 Ri += Math.ceil(((tmp+ set.get(observed).getJr())/(double) set.get(i).getT())
-                        + set.get(i).getC();
+                        + set.get(i).getC());
             }
 
             if (Ri > set.get(observed).getD())
@@ -83,6 +83,7 @@ public class SetTrafficFlow {
 
         }
 
+        return Ri;
 
     }
 
