@@ -19,9 +19,8 @@ public class SetTrafficFlow {
     }
 
     /**
-     *
      * @param observed our observed traffic flow
-     * @param other others traffic flow belonging to setTrafficFlow
+     * @param other    others traffic flow belonging to setTrafficFlow
      * @return if they have a flow intersection
      */
     private boolean haveAnIntersection(TrafficFlow observed,
@@ -30,8 +29,8 @@ public class SetTrafficFlow {
         ArrayList<Edge> observedEdge = observed.getEdges();
         ArrayList<Edge> otherEdge = other.getEdges();
 
-        for (Edge edge1: observedEdge) {
-            for (Edge edge2: otherEdge) {
+        for (Edge edge1 : observedEdge) {
+            for (Edge edge2 : otherEdge) {
                 if (edge1.getSource() == edge2.getSource() &&
                         edge1.getDestination() == edge2.getDestination())
                     return true;
@@ -61,5 +60,30 @@ public class SetTrafficFlow {
         return intersection;
     }
 
+    public double networkLatency(int observed, double Ci) {
+        // get intersection set
+        ArrayList<Integer> intersectionSet = directInterferenceSet(observed);
+
+        // default first network latency value
+        // Ri will have Ci in the first iteration
+        double Ri = Ci;
+        double tmp;
+        
+        // iteration
+        while (true){
+            tmp = Ri;
+            Ri += Ci;
+            for (int i :intersectionSet) {
+                Ri += Math.ceil(((tmp+ set.get(observed).getJr())/(double) set.get(i).getT())
+                        + set.get(i).getC();
+            }
+
+            if (Ri > set.get(observed).getD())
+                break;
+
+        }
+
+
+    }
 
 }

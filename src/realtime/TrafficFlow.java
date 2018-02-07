@@ -44,4 +44,24 @@ public class TrafficFlow {
     public ArrayList<Edge> getEdges() {
         return edges;
     }
+
+    public double getC() {
+        return c;
+    }
+
+    public int getP() {
+        return p;
+    }
+
+    public int getT() {
+        return t;
+    }
+
+    public int getD() {
+        return d;
+    }
+
+    public int getJr() {
+        return jr;
+    }
 }
